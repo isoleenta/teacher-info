@@ -2,8 +2,12 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
+use App\Nova\Metrics\User\ApprovedUsersPieChart;
+use App\Nova\Metrics\User\NewUsers;
+use App\Nova\Metrics\User\NewUsersTrend;
+use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Fields;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
@@ -13,8 +17,12 @@ class User extends Resource
     public static $title = 'name';
 
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name', 'surname', 'patronymic', 'position_at_work', 'structural_unit',
     ];
+
+//    public static $with = [
+//        'doc', 'disciplines'
+//    ];
 
     public static function label()
     {
@@ -61,12 +69,17 @@ class User extends Resource
             Fields\Number::make(__('Experience'), 'experience')
                 ->sortable()
                 ->hideFromIndex()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:100'),
 
             Fields\Text::make(__('Explanation'), 'explanation')
                 ->sortable()
                 ->hideFromIndex()
                 ->rules('required', 'max:255'),
+
+            Fields\Boolean::make(__('Approved'), 'approved')
+                ->sortable()
+                ->filterable()
+                ->hideWhenCreating(),
 
             ...$this->getTimestampsFields(),
 
@@ -77,23 +90,30 @@ class User extends Resource
         ];
     }
 
-    public function cards(Request $request)
+    public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            (new NewUsers)->width('1/2'),
+            (new NewUsersTrend)->width('1/2'),
+            (new ApprovedUsersPieChart)->width('1/2'),
+        ];
     }
 
-    public function filters(Request $request)
+    public function actions(NovaRequest $request)
     {
-        return [];
-    }
+        return [
+            Actions\User\ApproveUser::make()->showInline()->canSee(function ($request) {
+                if ($request instanceof ActionRequest) {
+                    return true;
+                }
+                $allowed = Gate::inspect('approveUser', $this)->allowed();
 
-    public function lenses(Request $request)
-    {
-        return [];
-    }
-
-    public function actions(Request $request)
-    {
-        return [];
+                if ($allowed) {
+                    return ! $this->approved;
+                } else {
+                    return false;
+                }
+            }),
+        ];
     }
 }

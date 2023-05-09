@@ -23,21 +23,21 @@ class DisciplinePolicy extends BasePolicy
 
     public function update(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) || $this->isSuperAdmin($user);
     }
 
     public function delete(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) || $this->isSuperAdmin($user);
     }
 
     public function restore(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) || $this->isSuperAdmin($user);
     }
 
     public function forceDelete(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) || $this->isSuperAdmin($user);
     }
 }

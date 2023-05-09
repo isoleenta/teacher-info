@@ -70,7 +70,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function dashboards()
     {
         return [
-            new \App\Nova\Dashboards\Main,
+            \App\Nova\Dashboards\Main::make()->canSeeWhen('viewAny', \App\Models\Admin::class),
         ];
     }
 

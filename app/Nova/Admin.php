@@ -2,7 +2,9 @@
 
 namespace App\Nova;
 
+use App\Enums;
 use App\Models;
+use App\Nova\Fields as CustomFields;
 use Illuminate\Validation\Rules\Password;
 use Laravel\Nova\Fields;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -51,6 +53,16 @@ class Admin extends Resource
                 ->rules('required')
                 ->sortable()
                 ->default('UTC'),
+
+            CustomFields\Enum::make(__('Role'), 'role', Enums\Admin\Role::class)
+                ->sortable()
+                ->rules('required')
+                ->filterable()
+                ->canSee(function ($request) {
+                    $user = $request->user();
+
+                    return $user->isSuperAdmin();
+                }),
 
             ...$this->getTimestampsFields(),
         ];

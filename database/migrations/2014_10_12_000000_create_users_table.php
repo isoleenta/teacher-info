@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('information_about_qualification');
             $table->integer('experience');
             $table->string('explanation');
+            $table->boolean('approved')->default(false);
             $table->timestamps();
         });
     }

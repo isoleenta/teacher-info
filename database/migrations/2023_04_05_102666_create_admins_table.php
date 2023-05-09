@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('timezone')->default('UTC')->index();
+            $table->unsignedTinyInteger('role');
             $table->rememberToken();
             $table->timestamps();
         });

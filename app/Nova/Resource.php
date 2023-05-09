@@ -59,6 +59,7 @@ abstract class Resource extends NovaResource
         return [
             Fields\DateTime::make(__('Create date'), 'created_at')
                 ->exceptOnForms()
+                ->filterable()
                 ->sortable(),
 
             Fields\DateTime::make(__('Update date'), 'updated_at')

@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\Discipline\NewDisciplinesTrend;
 use Laravel\Nova\Fields;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -34,6 +35,13 @@ class Discipline extends Resource
                 ->rules('required', 'max:255'),
 
             Fields\BelongsToMany::make(__('User'), 'users', User::class),
+        ];
+    }
+
+    public function cards(NovaRequest $request)
+    {
+        return [
+            (new NewDisciplinesTrend)->width('1/2'),
         ];
     }
 }
