@@ -31,7 +31,6 @@ class Discipline extends Resource
 
             Fields\Text::make(__('Name'), 'name')
                 ->sortable()
-                ->filterable()
                 ->rules('required', 'max:255'),
 
             Fields\BelongsToMany::make(__('User'), 'users', User::class),

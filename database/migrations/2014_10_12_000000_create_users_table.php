@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('patronymic');
             $table->string('position_at_work');
             $table->string('structural_unit');
-            $table->string('information_about_qualification');
+            $table->text('information_about_qualification');
             $table->integer('experience');
-            $table->string('explanation');
+            $table->mediumText('explanation');
             $table->boolean('approved')->default(false);
             $table->timestamps();
         });

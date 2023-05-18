@@ -19,6 +19,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         parent::boot();
 
         Nova::initialPath('/resources/users/new');
+        Nova::withoutNotificationCenter();
+        Nova::withBreadcrumbs();
+        Nova::footer(function () {
+        });
     }
 
     /**

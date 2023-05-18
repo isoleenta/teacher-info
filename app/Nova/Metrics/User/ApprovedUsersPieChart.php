@@ -10,7 +10,7 @@ class ApprovedUsersPieChart extends Partition
 {
     public function name()
     {
-        return __('New Users Trend');
+        return __('Approved Users Pie Chart');
     }
 
     public function calculate(NovaRequest $request)

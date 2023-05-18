@@ -64,17 +64,17 @@ class User extends Resource
             Fields\Text::make(__('Information about qualification'), 'information_about_qualification')
                 ->sortable()
                 ->hideFromIndex()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:60000'),
 
             Fields\Number::make(__('Experience'), 'experience')
                 ->sortable()
                 ->hideFromIndex()
                 ->rules('required', 'max:100'),
 
-            Fields\Text::make(__('Explanation'), 'explanation')
+            Fields\Textarea::make(__('Explanation'), 'explanation')
                 ->sortable()
                 ->hideFromIndex()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:16777000'),
 
             Fields\Boolean::make(__('Approved'), 'approved')
                 ->sortable()
